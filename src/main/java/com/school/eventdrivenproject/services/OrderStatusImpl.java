@@ -16,4 +16,16 @@ public class OrderStatusImpl implements IOrderStatusService {
     public OrderStatus findOneByName(String name) {
         return repository.findOneByName(name);
     }
+
+    @Override
+    public OrderStatus findOneByNameOrCreate(String name) {
+        return repository.findOrderStatusByName(name).orElseGet(() -> create(name));
+    }
+
+    @Override
+    public OrderStatus create(String name) {
+        OrderStatus orderStatus = new OrderStatus();
+        orderStatus.setName(name);
+        return repository.save(orderStatus);
+    }
 }

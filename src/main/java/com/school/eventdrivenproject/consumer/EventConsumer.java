@@ -1,35 +1,35 @@
 package com.school.eventdrivenproject.consumer;
 
-import com.school.eventdrivenproject.config.MessagingConfig;
-import com.school.eventdrivenproject.controllers.dtos.requests.CreateEventRequest;
-import com.school.eventdrivenproject.entities.Event;
-import com.school.eventdrivenproject.services.interfaces.IEventService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.school.eventdrivenproject.config.RabbitMQConfiguration;
+import com.school.eventdrivenproject.dtos.requests.CreateEventRequest;
+import com.school.eventdrivenproject.dtos.requests.UpdateEventRequest;
+import com.school.eventdrivenproject.services.interfaces.IEventProcessorService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 @Component
 public class EventConsumer {
 
     @Autowired
-    private IEventService eventService;
+    private IEventProcessorService eventProcessorService;
 
-    @RabbitListener(queues = MessagingConfig.QUEUE)
-    public String consumeMessageFromQueue(CreateEventRequest eventRequest){
-        System.out.println("Message received from queue: " + eventRequest.getType());
-        executeFunction(eventRequest.getType(), eventRequest);
-        return "Event: " + eventRequest.getType();
-    }
+    @RabbitListener(queues = RabbitMQConfiguration.QUEUE)
+    public void consumeMessageFromQueue(String event) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String eventType = event.substring(8, 25);
 
-
-    public Event executeFunction(String type, CreateEventRequest event) {
-        switch (type) {
-            case "CREATE_ORDER":
-                return eventService.create(event);
-            case "START_DELIVERY":
-                return null;
-            default:
-                return null;
+        if(eventType.contains("CREATE_ORDER")){
+            CreateEventRequest eventRequest = objectMapper.readValue(event, CreateEventRequest.class);
+            eventProcessorService.processEvent(eventRequest);
+        } else{
+            UpdateEventRequest eventRequest = objectMapper.readValue(event, UpdateEventRequest.class);
+            eventProcessorService.processEvent(eventRequest);
         }
+
     }
+
 }

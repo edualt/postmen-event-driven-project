@@ -1,12 +1,13 @@
-package com.school.eventdrivenproject.controllers.dtos.requests;
+package com.school.eventdrivenproject.dtos.requests;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Getter @Setter
-public class CreateOrderRequest {
+public class CreateOrderRequest implements Serializable {
 
     @NotBlank
     @NotNull
@@ -25,4 +26,6 @@ public class CreateOrderRequest {
     private String shipTo;
 
     private String associatedEmail;
+
+    private CreatePackageRequest packageRequest;
 }

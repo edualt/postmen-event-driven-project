@@ -1,13 +1,14 @@
-package com.school.eventdrivenproject.controllers.dtos.requests;
+package com.school.eventdrivenproject.dtos.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
-public class CreatePackageRequest {
+import java.io.Serializable;
 
-    @NotBlank
-    @NotNull
-    private String description;
+@Getter @Setter
+public class CreatePackageRequest implements Serializable {
 
     @NotBlank
     @NotNull

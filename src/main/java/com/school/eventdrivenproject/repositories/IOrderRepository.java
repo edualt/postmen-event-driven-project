@@ -7,4 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IOrderRepository extends JpaRepository<Order, Long> {
 
+    boolean existsOrderByTrackingId(String trackingId);
+
+    Order findOneByTrackingId(String trackingId);
+
 }

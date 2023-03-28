@@ -2,9 +2,12 @@ package com.school.eventdrivenproject.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.school.eventdrivenproject.config.RabbitMQConfiguration;
-import com.school.eventdrivenproject.dtos.requests.CreateEventRequest;
-import com.school.eventdrivenproject.dtos.requests.UpdateEventRequest;
+import com.school.eventdrivenproject.controllers.dtos.requests.CreateEventRequest;
+import com.school.eventdrivenproject.controllers.dtos.requests.UpdateEventRequest;
+import com.school.eventdrivenproject.entities.Order;
 import com.school.eventdrivenproject.services.interfaces.IEventProcessorService;
+import com.school.eventdrivenproject.services.interfaces.IEventService;
+import com.school.eventdrivenproject.services.interfaces.IOrderService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,21 +18,26 @@ import java.io.IOException;
 public class EventConsumer {
 
     @Autowired
-    private IEventProcessorService eventProcessorService;
+    private IEventService eventService;
 
-    @RabbitListener(queues = RabbitMQConfiguration.QUEUE)
-    public void consumeMessageFromQueue(String event) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String eventType = event.substring(8, 25);
+    @Autowired
+    private IOrderService orderService;
 
-        if(eventType.contains("CREATE_ORDER")){
-            CreateEventRequest eventRequest = objectMapper.readValue(event, CreateEventRequest.class);
-            eventProcessorService.processEvent(eventRequest);
-        } else{
-            UpdateEventRequest eventRequest = objectMapper.readValue(event, UpdateEventRequest.class);
-            eventProcessorService.processEvent(eventRequest);
-        }
-
+    @RabbitListener(queues = "received_order_queue")
+    public void inProgressListener(CreateEventRequest request) throws IOException {
+        System.out.println(request.getType());
+        eventService.create(request);
     }
 
+    @RabbitListener(queues = "in_progress_queue")
+    public void receivedOrderListener(UpdateEventRequest request) {
+        eventService.create(request, request.getTrackingId());
+        orderService.updateStatusToInProgress(request.getTrackingId());;
+    }
+
+    @RabbitListener(queues = "finished_order_queue")
+    public void finishedOrderListener(UpdateEventRequest request){
+        eventService.create(request, request.getTrackingId());
+        orderService.updateStatusToDelivered(request.getTrackingId());
+    }
 }

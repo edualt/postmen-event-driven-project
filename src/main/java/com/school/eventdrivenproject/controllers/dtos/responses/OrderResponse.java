@@ -1,4 +1,4 @@
-package com.school.eventdrivenproject.dtos.responses;
+package com.school.eventdrivenproject.controllers.dtos.responses;
 
 public class OrderResponse {
 

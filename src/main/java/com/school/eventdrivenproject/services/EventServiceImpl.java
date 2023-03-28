@@ -1,12 +1,13 @@
 package com.school.eventdrivenproject.services;
 
-import com.school.eventdrivenproject.dtos.requests.CreateEventRequest;
+import com.school.eventdrivenproject.controllers.dtos.requests.CreateEventRequest;
+import com.school.eventdrivenproject.controllers.dtos.requests.UpdateEventRequest;
 import com.school.eventdrivenproject.entities.Event;
 import com.school.eventdrivenproject.entities.Order;
 import com.school.eventdrivenproject.repositories.IEventRepository;
 import com.school.eventdrivenproject.services.interfaces.IEventService;
 import com.school.eventdrivenproject.services.interfaces.IOrderService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,18 @@ public class EventServiceImpl implements IEventService {
         Event event = new Event();
         event.setType(request.getType());
         event.setOrder(order);
-        event.setDate(new Date());
+        event.setDate(new Date(System.currentTimeMillis()));
+        return repository.save(event);
+    }
+
+    @Override
+    public Event create(UpdateEventRequest request, String trackingId) {
+        Order order = orderService.findByTrackingId(trackingId);
+
+        Event event = new Event();
+        event.setType(request.getType());
+        event.setOrder(order);
+        event.setDate(new Date(System.currentTimeMillis()));
         return repository.save(event);
     }
 

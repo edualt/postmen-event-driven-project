@@ -13,11 +13,9 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class AmazonSNSConfiguration {
 
-    @Value("${SNS_ACCESS_KEY}")
-    private String SNS_ACCESS_KEY;
+    private String SNS_ACCESS_KEY = "AKIAZDVLAG2KQMTKCGK7";
 
-    @Value("${SNS_SECRET_KEY}")
-    private String SNS_SECRET_KEY;
+    private String SNS_SECRET_KEY = "+lTTHjN9v2wydFDi+wI/9qGNEvt4phPXRlJLUz3V";
 
     @Primary
     @Bean

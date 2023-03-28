@@ -2,7 +2,7 @@ package com.school.eventdrivenproject.services;
 
 import com.cloudinary.Cloudinary;
 import com.school.eventdrivenproject.services.interfaces.IFileService;
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,12 @@ import java.util.UUID;
 @Service
 public class CloudinaryFileServiceImpl implements IFileService {
 
-    @Value("${CLOUDINARY_NAME}")
-    private String cloudName;
 
-    @Value("${CLOUDINARY_API_KEY}")
-    private String apiKey;
+    private String cloudName = "dmwtuuczm";
 
-    @Value("${CLOUDINARY_API_SECRET}")
-    private String apiSecret;
+    private String apiKey = "636124945342724";
+
+    private String apiSecret = "JhCXb50sFMHvCdKNgg9fx5DfQkU";
 
     private final Cloudinary cloudinary = new Cloudinary();
 

@@ -1,7 +1,9 @@
 package com.school.eventdrivenproject.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,10 +30,12 @@ public class Order {
     @JoinColumn(name = "orderStatus_id")
     @JsonManagedReference
     private OrderStatus status;
+
     @OneToMany(mappedBy = "order")
     private List<Event> events;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "package_id", referencedColumnName = "id")
+    @JsonBackReference
     private Package orderPackage;
 
 }

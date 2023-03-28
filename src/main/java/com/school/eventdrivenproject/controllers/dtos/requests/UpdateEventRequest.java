@@ -1,4 +1,4 @@
-package com.school.eventdrivenproject.dtos.requests;
+package com.school.eventdrivenproject.controllers.dtos.requests;
 
 import lombok.Getter;
 import lombok.Setter;

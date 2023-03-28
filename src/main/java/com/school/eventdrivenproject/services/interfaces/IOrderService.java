@@ -1,8 +1,8 @@
 package com.school.eventdrivenproject.services.interfaces;
 
-import com.school.eventdrivenproject.dtos.requests.CreateOrderRequest;
-import com.school.eventdrivenproject.dtos.requests.CreatePackageRequest;
-import com.school.eventdrivenproject.dtos.responses.BaseResponse;
+import com.school.eventdrivenproject.controllers.dtos.requests.CreateOrderRequest;
+import com.school.eventdrivenproject.controllers.dtos.requests.CreatePackageRequest;
+import com.school.eventdrivenproject.controllers.dtos.responses.BaseResponse;
 import com.school.eventdrivenproject.entities.Order;
 
 import java.io.IOException;
@@ -18,9 +18,7 @@ public interface IOrderService {
 
     Order updateStatusToDelivered(String trackingId);
 
-    BaseResponse delete(Long id);
-
     Order findOneAndEnsureExistsById(Long id);
 
-    Order findById(Long id);
+    Order findByTrackingId(String trackingId);
 }

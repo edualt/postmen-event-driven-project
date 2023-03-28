@@ -1,9 +1,9 @@
 package com.school.eventdrivenproject.services;
 
 import com.school.eventdrivenproject.constants.OrderStatusesEnum;
-import com.school.eventdrivenproject.dtos.requests.CreateOrderRequest;
-import com.school.eventdrivenproject.dtos.requests.CreatePackageRequest;
-import com.school.eventdrivenproject.dtos.responses.BaseResponse;
+import com.school.eventdrivenproject.controllers.dtos.requests.CreateOrderRequest;
+import com.school.eventdrivenproject.controllers.dtos.requests.CreatePackageRequest;
+import com.school.eventdrivenproject.controllers.dtos.responses.BaseResponse;
 import com.school.eventdrivenproject.entities.Order;
 import com.school.eventdrivenproject.entities.OrderStatus;
 import com.school.eventdrivenproject.repositories.IOrderRepository;
@@ -76,18 +76,13 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public BaseResponse delete(Long id) {
-        return null;
-    }
-
-    @Override
     public Order findOneAndEnsureExistsById(Long id) {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
     }
 
     @Override
-    public Order findById(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("asd"));
+    public Order findByTrackingId(String trackingId) {
+        return repository.findOneByTrackingId(trackingId);
     }
 
     private Order from(CreateOrderRequest request){

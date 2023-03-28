@@ -1,6 +1,8 @@
 package com.school.eventdrivenproject.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +20,7 @@ public class Package {
     private Float height;
 
     @OneToOne(mappedBy = "orderPackage")
+    @JsonBackReference
     private Order order;
 
 }

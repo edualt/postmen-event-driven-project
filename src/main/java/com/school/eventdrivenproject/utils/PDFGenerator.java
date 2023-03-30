@@ -19,9 +19,10 @@ public class PDFGenerator {
 
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setSize(18);
-        Image img = Image.getInstance("src/main/resources/static/POSTMEN.png");
+        Font title = FontFactory.getFont(FontFactory.HELVETICA);
+        title.setSize(26);
 
-        document.add(img);
+        document.add(new Paragraph("POSTMEN", title));
         document.add(new Paragraph("Tracking ID: " + order.getTrackingId(), font));
         document.add(new Paragraph("Address: " + order.getAddress(), font));
         document.add(new Paragraph("City: " + order.getCity(), font));

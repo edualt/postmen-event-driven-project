@@ -16,7 +16,7 @@ import java.util.UUID;
 @Service
 public class DropBoxFileServiceImpl implements IFileService {
 
-    public static final String ACCESS_TOKEN = "";
+    public static final String ACCESS_TOKEN = "aa";
     @Override
     public String upload(ByteArrayOutputStream byteArrayOutputStream) {
         String fileUrl = "";
